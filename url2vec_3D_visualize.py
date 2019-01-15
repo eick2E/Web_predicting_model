@@ -38,7 +38,7 @@ def get_files(path):
     return data_set
 
 
-# Step 1: Download the data.
+#Download the data.
 # Read the data into a list of strings.
 def read_data():
     return get_files('BU_dataset/b19/Apr95/')
@@ -53,7 +53,7 @@ for i in sequences:
 
 print('Data size', len(words))
 
-# Step 2: Build the dictionary and replace rare words with UNK token.
+#Build the dictionary and replace rare words with UNK token.
 vocabulary_size = 50000
 def build_dataset(words):
 
@@ -87,7 +87,7 @@ print('Sample data', data[:10], [reverse_dictionary[i] for i in data[:10]])
 
 
 data_index = 0
-# Step 3: Function to generate a training batch for the skip-gram model.
+#Function to generate a training batch for the skip-gram model.
 def generate_batch(batch_size, num_skips, skip_window):
     global data_index
     assert batch_size % num_skips == 0
@@ -116,7 +116,7 @@ batch, labels = generate_batch(batch_size=8, num_skips=2, skip_window=1)
 for i in range(8):
     print(batch[i], reverse_dictionary[batch[i]],'->', labels[i, 0], reverse_dictionary[labels[i, 0]])
 
-# Step 4: Build and train a skip-gram model.
+#Build and train a skip-gram model.
 batch_size = 128
 embedding_size = 128
 skip_window = 1
@@ -127,7 +127,7 @@ num_sampled = 64    # Number of negative examples to sample.
 
 
 
-#验证集
+#Validation
 valid_word = ['"http://www.cqs.washington.edu/icons/text.xbm"','"http://www.cqs.washington.edu/icons/unknown.xbm"','"http://cs-www.bu.edu/students/grads/tahir/CS111/"','"http://cs-www.bu.edu/lib/logo/Todd_Ginsberg0.gif"']
 valid_examples =[dictionary[li] for li in valid_word]
 
@@ -164,7 +164,7 @@ with graph.as_default():
     # Add variable initializer.
     init = tf.global_variables_initializer()
 
-# Step 5: Begin training.
+#Begin training.
 num_steps = 20000
 with tf.Session(graph=graph) as session:
     # We must initialize all variables before we use them.
@@ -206,7 +206,7 @@ with tf.Session(graph=graph) as session:
     final_embeddings = normalized_embeddings.eval()
 
 
-# Step 6: Visualize the embeddings.
+#Visualize the embeddings.
 def plot_with_labels(low_dim_embs, labels, filename='tsne.png',fonts=None):
     fig = plt.figure()
     ax = fig.add_subplot(111, projection='3d')
